@@ -42,23 +42,25 @@ export default class MainSlider extends Slider {
 
 	render() {
 		try {
-			//получаем всплывающий блок (главная страница, 3-й слайд)
-			this.hanson = document.querySelector('.hanson');
-		} catch(e){}
+			try {
+				//получаем всплывающий блок (главная страница, 3-й слайд)
+				this.hanson = document.querySelector('.hanson');
+			} catch(e){}
 
-		this.btns.forEach(item => {
-			item.addEventListener('click', () => {
-				this.plusSlides(1);
+			this.btns.forEach(item => {
+				item.addEventListener('click', () => {
+					this.plusSlides(1);
+				});
+
+				// находим выше по DOM дереву ссылку перехода на первый слайд и вешаем на нее событие
+				item.parentNode.previousElementSibling.addEventListener('click', (e) => {
+					e.preventDefault();
+					this.slideIndex = 1;
+					this.showSlides(this.slideIndex);
+				});
 			});
 
-			// находим выше по DOM дереву ссылку перехода на первый слайд и вешаем на нее событие
-			item.parentNode.previousElementSibling.addEventListener('click', (e) => {
-				e.preventDefault();
-				this.slideIndex = 1;
-				this.showSlides(this.slideIndex);
-			});
-		});
-
-		this.showSlides(this.slideIndex);
+			this.showSlides(this.slideIndex);
+		} catch (e) {}
 	}
 }
